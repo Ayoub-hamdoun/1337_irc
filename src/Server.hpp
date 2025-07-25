@@ -6,7 +6,7 @@
 /*   By: ayhamdou <ayhamdou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 11:57:34 by ayhamdou          #+#    #+#             */
-/*   Updated: 2025/07/01 15:48:32 by ayhamdou         ###   ########.fr       */
+/*   Updated: 2025/07/25 12:00:43 by ayhamdou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,27 @@
 # include <poll.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <cstring>
+# include "Client.hpp"
 
 class Server
 {
 	private:
 		int port;
 		std::string password;
+		std::vector<Client *> clientList;
+		std::vector<struct pollfd> poll_fds;
 	
 	public:
 		Server();
 		~Server();
 		// Server(int port);
 		void StartServer(int port);
-		
+		void handleClient(size_t i);
+		void newConnection();
+		void processCommand(size_t j, Client *client, const std::string &command);
+		//tmp - move to utils
+		std::vector<std::string> ft_splitIt(const std::string &str);
 
 };
 
