@@ -6,7 +6,7 @@
 /*   By: ayhamdou <ayhamdou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 11:57:34 by ayhamdou          #+#    #+#             */
-/*   Updated: 2025/07/25 12:00:43 by ayhamdou         ###   ########.fr       */
+/*   Updated: 2025/07/26 16:16:36 by ayhamdou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <cstring>
+# include <cstdlib>
+# include <sstream>
 # include "Client.hpp"
 
 class Server

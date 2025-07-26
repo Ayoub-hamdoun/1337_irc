@@ -6,7 +6,7 @@
 /*   By: ayhamdou <ayhamdou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 11:57:31 by ayhamdou          #+#    #+#             */
-/*   Updated: 2025/07/25 12:02:14 by ayhamdou         ###   ########.fr       */
+/*   Updated: 2025/07/26 20:36:17 by ayhamdou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,18 @@ void Server::newConnection()
 {
 	int clientFd = accept(poll_fds[0].fd, NULL, NULL);
 	if (clientFd < 0)
+		throw std::runtime_error("accept failed");
+	else
 	{
-		perror("accept");
-		return;
+		fcntl(clientFd, F_SETFL, O_NONBLOCK);
+		struct pollfd newPollFd;
+		newPollFd.fd = clientFd;
+		newPollFd.events = POLLIN;
+		newPollFd.revents = 0;
+		poll_fds.push_back(newPollFd);
+		Client *newClient = new Client(clientFd);
+		clientList.push_back(newClient);
 	}
-	fcntl(clientFd, F_SETFL, O_NONBLOCK);
-	struct pollfd newPollFd;
-	newPollFd.fd = clientFd;
-	newPollFd.events = POLLIN;
-	newPollFd.revents = 0;
-	poll_fds.push_back(newPollFd);
-	Client *newClient = new Client(clientFd);
-	clientList.push_back(newClient);
-	std::cout << "New client connected: " << clientFd << std::endl;
 }
 
 void Server::handleClient(size_t i)
@@ -66,7 +65,7 @@ void Server::handleClient(size_t i)
 	Client *client = clientList[i - 1];
 	int bytesReceived = recv(poll_fds[i].fd, buffer, sizeof(buffer), 0);
 	if (bytesReceived < 0)
-		return ;
+		return ; // throw exeption
 	if (!bytesReceived)
 	{
 		std::string nickname = client->getClientNickName();
@@ -93,6 +92,33 @@ void Server::handleClient(size_t i)
 	}
 }
 
+void Server::processCommand(size_t i, Client *client, const std::string &msg)
+{
+	(void) i; // Unused parameter
+	if (msg.empty())
+	{
+		perror("Empty message received");
+		exit(EXIT_FAILURE);
+	}
+	std::istringstream iss(msg);
+	std::string command;
+	iss >> command;
+	//check if not registred
+	// if (!client->isRegistered() )
+	// 	auth
+	// else
+	// executecommand(clinet, msg, command);
+	if (client->isRegistered)
+		executeCommand(client, msg, command);
+	else
+	{
+		
+	}
+	std::cout << "Processing command: " << command << std::endl;
+}
+
+
+
 std::vector<std::string> Server::ft_splitIt(const std::string &input)
 {
     std::vector<std::string> lines;
@@ -110,7 +136,7 @@ std::vector<std::string> Server::ft_splitIt(const std::string &input)
                 line += '\n';
             }
         }
-         else
+        else
             line = "\r\n";
         lines.push_back(line);
         start = end + 1;
@@ -134,6 +160,8 @@ std::vector<std::string> Server::ft_splitIt(const std::string &input)
 
 void Server::StartServer(int port)
 {
+	this->port = port;
+
 	//init
 	int socketFd = socket(AF_INET, SOCK_STREAM, 0); 
 	if (socketFd < 0)
@@ -168,7 +196,7 @@ void Server::StartServer(int port)
 			perror("poll");
 			break;
 		}
-		if (poll_fds[0].events & POLLIN)
+		if (poll_fds[0].revents & POLLIN)
 			newConnection();
 		else
 		{

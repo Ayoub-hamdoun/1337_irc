@@ -1,0 +1,1 @@
+make && make clean && clear && ./ircserv 4001 test1234

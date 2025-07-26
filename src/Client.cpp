@@ -6,7 +6,7 @@
 /*   By: ayhamdou <ayhamdou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 11:55:39 by ayhamdou          #+#    #+#             */
-/*   Updated: 2025/07/25 11:35:13 by ayhamdou         ###   ########.fr       */
+/*   Updated: 2025/07/26 20:34:54 by ayhamdou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,9 @@ std::string Client::getbuffer()
 void Client::appendToBuffer(const std::string& data)
 {
 	this->buffer += data;
+}
+
+bool Client::isRegistered()
+{
+	return isRegistered;
 }
