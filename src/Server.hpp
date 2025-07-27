@@ -6,7 +6,7 @@
 /*   By: ayhamdou <ayhamdou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 11:57:34 by ayhamdou          #+#    #+#             */
-/*   Updated: 2025/07/26 16:16:36 by ayhamdou         ###   ########.fr       */
+/*   Updated: 2025/07/27 14:49:41 by ayhamdou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ class Server
 		void handleClient(size_t i);
 		void newConnection();
 		void processCommand(size_t j, Client *client, const std::string &command);
+		void executeCommand(Client *client, std::string msg, std::string command);
+		void authenticate(std::string msg, Client *client, std::string command);
 		//tmp - move to utils
 		std::vector<std::string> ft_splitIt(const std::string &str);
 

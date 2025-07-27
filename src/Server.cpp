@@ -6,7 +6,7 @@
 /*   By: ayhamdou <ayhamdou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 11:57:31 by ayhamdou          #+#    #+#             */
-/*   Updated: 2025/07/26 20:36:17 by ayhamdou         ###   ########.fr       */
+/*   Updated: 2025/07/27 21:52:02 by ayhamdou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void Server::handleClient(size_t i)
 void Server::processCommand(size_t i, Client *client, const std::string &msg)
 {
 	(void) i; // Unused parameter
+	(void) client; // Unused parameter
 	if (msg.empty())
 	{
 		perror("Empty message received");
@@ -108,16 +109,37 @@ void Server::processCommand(size_t i, Client *client, const std::string &msg)
 	// 	auth
 	// else
 	// executecommand(clinet, msg, command);
-	if (client->isRegistered)
-		executeCommand(client, msg, command);
-	else
-	{
-		
-	}
+	// if (client->getisRegistered())
+	// 	executeCommand(client, msg, command);
+	// else
+	// {
+	// 	authenticate(msg, client, command);
+	// }
+	std::cout << "original msg: " << msg << std::endl;
 	std::cout << "Processing command: " << command << std::endl;
 }
 
+void Server::executeCommand(Client *client, std::string msg, std::string command)
+{
+	(void) command; // Unused parameter
+	(void) client; // Unused parameter
+	if (msg.empty())
+	{
+		perror("Empty message received");
+		exit(EXIT_FAILURE);
+	}
+}
 
+// void Server::authenticate(std::string msg, Client *client, std::string command)
+// {
+// 	int fd = client->getClientFd();
+// 	if (client->getisRegistered() == false && command == "PASS")
+// 	{
+// 		if ()
+// 	}
+// }
+
+// utils :
 
 std::vector<std::string> Server::ft_splitIt(const std::string &input)
 {

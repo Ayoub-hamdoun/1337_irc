@@ -6,7 +6,7 @@
 /*   By: ayhamdou <ayhamdou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 11:56:03 by ayhamdou          #+#    #+#             */
-/*   Updated: 2025/07/26 20:34:27 by ayhamdou         ###   ########.fr       */
+/*   Updated: 2025/07/27 12:43:55 by ayhamdou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ class Client
 		int getClientFd();
 		std::string getClientNickName();
 		std::string getClientRealName();
-		bool isRegistered();
+		bool getisRegistered();
 		void appendToBuffer(const std::string& data);
 
 		//tmp
